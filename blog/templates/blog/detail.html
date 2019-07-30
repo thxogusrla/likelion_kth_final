@@ -1,0 +1,43 @@
+{% extends 'blog/layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="jumbotron">
+            <h6 class="display-4">제목 </h6>
+            <p>{{ blog.title }}</p>
+            <br><br>
+            <p class="lead">내용<br><br>{{ blog.body }}</p>
+            <br><br>
+            {% if blog.image %}
+                <p class="lead">사진<br><br>
+                    <img src="{{ blog.image.url }}" alt="card image" style="max-width: 100%; height: auto;">
+                </p>
+            {% endif %}
+            <hr class="my-4">
+            <p>만든 날짜: {{ blog.pub_date }}</p>
+            {% for hashtag in blog.Hashtags.all %}
+            <span>{{ hashtag.name }}</span>
+            {% endfor %}
+            <br>
+            <a class="btn btn-secondary" href="{% url 'blog:edit' blog.id %}" role="button">수정</a>
+            <a class="btn btn-danger" href="{% url 'blog:remove' blog.id %}" role="button">삭제</a>
+        </div>
+        <div class ="jumbotron jumbotron-fluid">
+            <div class="container">
+                <p class="display-4">댓글<br></p>
+                {% for comment in blog.comments.all %}
+                <p class="lead">{{ comment.comment_text }}
+                <a class="btn btn-secondary" href="{% url 'blog:edit_comment' blog.id comment.id %}" role="button">수정</a>
+                <a class="btn btn-danger" href="{% url 'blog:remove_comment' blog.id comment.id %}" role="button">삭제</a>
+                </p>
+                {% endfor %}
+
+            </div>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <input class="btn btn-primary" type="submit" value="Submit">
+        </form>
+    </div>
+{% endblock %}

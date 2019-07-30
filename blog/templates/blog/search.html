@@ -1,0 +1,40 @@
+{% extends 'blog/layout.html' %}
+{% block header %}
+<!-- Page Header -->
+<header class="masthead">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="site-heading">
+          <h1>{{ hashtag }}가 있는 게시글 목록</h1>
+          <span class="subheading">해시태그 검색 결과 페이지.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+{% endblock %}
+{% block content %}
+{% for blog in hashtag.blog_set.all %}
+<div class="container1">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">pk!</th>
+        <th scope="col">Title</th>
+        <th scope="col">time</th>
+      </tr> 
+    </thead>
+      <br><br><br>
+    <tbody>
+      <tr>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td><a href="{% url 'blog:detail' blog.id %}">{{blog.title}}</a></td>
+        <td>{{blog.pub_date}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+{% endfor %}
+{% endblock %}
